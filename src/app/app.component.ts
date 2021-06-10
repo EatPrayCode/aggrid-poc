@@ -59,6 +59,8 @@ export class AppComponent {
 
   public components: any = [];
 
+  oldCellSelectedCell: any;
+
   currency = [
     { name: 'USD', factor: 1 },
     { name: 'INR', factor: 70 },
@@ -156,11 +158,18 @@ export class AppComponent {
   }
 
   onCellClicked(params: any) {
-    if(params.column.colId === 'id'){
+    if (this.oldCellSelectedCell && (params.column.colId == this.oldCellSelectedCell.column.colId)) {
+      this.oldCellSelectedCell.node.setData({
+        ...this.oldCellSelectedCell.data,
+        isCellSelected: false
+      });
+    }
+    if (params.column.colId === 'id') {
       params.node.setData({
         ...params.data,
         isCellSelected: true
       });
+      this.oldCellSelectedCell = params;
     }
   }
 
