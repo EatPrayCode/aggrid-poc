@@ -13,7 +13,7 @@ export class AppComponent {
   public gridColumnApi: any;
 
   public columnDefs: any;
-  public defaultColDef: any;
+  // public defaultColDef: any;
 
   public rowData: any = [
     { id: 123, product: "ABC", qty: 2, price: 30 },
@@ -67,83 +67,91 @@ export class AppComponent {
     { name: 'GBP', factor: 2 }
   ];
 
-  columns: ColDef[] = [
-    { field: "id", headerName: "ID" },
-    { field: "product", headerName: "Product", minWidth: 120 },
-    { field: "qty", headerName: "Quantity" },
-    { field: "price", headerName: "Price (in USD)", minWidth: 120 }
-  ];
+  // columns: ColDef[] = [
+  //   { field: "id", headerName: "ID" },
+  //   { field: "product", headerName: "Product", minWidth: 120 },
+  //   { field: "qty", headerName: "Quantity" },
+  //   { field: "price", headerName: "Price (in USD)", minWidth: 120 }
+  // ];
 
   constructor() {
 
     this.columnDefs = [
       {
-        headerName: 'Athlete Details',
-        children: [
-          {
-            field: "id", headerName: "ID",
-            // cellRenderer: function (param: any) {
-            //   return param.data.qty + '<br/>' + param.data.price;
-            // }
-          },
-          {
-            field: "product", headerName: "Product", minWidth: 120,
-            cellStyle: function (params: any) {
-
-              /*
-              Params give assess to the row node from which we can
-              get the node data. So you can get the data for
-              another column and style your column based on that.
-              */
-
-              var goals = params.node.data.qty;
-              let background = 'red';
-
-              if (goals === 0) {
-                background = "#B70000"
-              } else if (goals === 1 || goals === 2) {
-                background = "#FF8400"
-              } else if (goals === 3 || goals === 4) {
-                background = "#FFF700"
-              } else if (goals === 5 || goals === 6) {
-                background = "#CEFF00"
-              } else if (goals === 7) {
-                background = "#05CC00"
-              } else {
-                background = "#fff"
-              }
-
-              if (params.node.data.isCellSelected) {
-                background = "";
-              }
-
-              return {
-                background: background
-              };
-            }
-
-          },
-        ]
+        headerName: 'Make',
+        field: 'make',
+        sortable: true,
+        filter: true,
+        checkboxSelection: true,
+        headerCheckboxSelection: true
       },
-      {
-        headerName: 'Sports Results',
-        children: [
-          {
-            field: "qty", headerName: "Quantity",
-            cellRenderer: function (param: any) {
-              return param.data.qty + '<br/>' + param.data.price;
-            }
-          },
-          {
-            field: "price",
-            headerName: "Price (in USD)",
-            minWidth: 120,
-            cellRenderer: function (param: any) {
-              return param.data.qty + '<br/>' + param.data.price;
-            }
-          }
-        ]
-      }
+      // {
+      //   headerName: 'Athlete Details',
+      //   children: [
+      //     {
+      //       field: "id", headerName: "ID",
+      //       // cellRenderer: function (param: any) {
+      //       //   return param.data.qty + '<br/>' + param.data.price;
+      //       // }
+      //     },
+      //     {
+      //       field: "product", headerName: "Product", minWidth: 120,
+      //       cellStyle: function (params: any) {
+
+      //         /*
+      //         Params give assess to the row node from which we can
+      //         get the node data. So you can get the data for
+      //         another column and style your column based on that.
+      //         */
+
+      //         var goals = params.node.data.qty;
+      //         let background = 'red';
+
+      //         if (goals === 0) {
+      //           background = "#B70000"
+      //         } else if (goals === 1 || goals === 2) {
+      //           background = "#FF8400"
+      //         } else if (goals === 3 || goals === 4) {
+      //           background = "#FFF700"
+      //         } else if (goals === 5 || goals === 6) {
+      //           background = "#CEFF00"
+      //         } else if (goals === 7) {
+      //           background = "#05CC00"
+      //         } else {
+      //           background = "#fff"
+      //         }
+
+      //         if (params.node.data.isCellSelected) {
+      //           background = "";
+      //         }
+
+      //         return {
+      //           background: background
+      //         };
+      //       }
+
+      //     },
+      //   ]
+      // },
+      // {
+      //   headerName: 'Sports Results',
+      //   children: [
+      //     {
+      //       field: "qty", headerName: "Quantity",
+      //       cellRenderer: function (param: any) {
+      //         return param.data.qty + '<br/>' + param.data.price;
+      //       }
+      //     },
+      //     {
+      //       field: "price",
+      //       headerName: "Price (in USD)",
+      //       minWidth: 120,
+      //       cellRenderer: function (param: any) {
+      //         return param.data.qty + '<br/>' + param.data.price;
+      //       }
+      //     }
+      //   ]
+      // }
     ];
 
     this.pinnedTopRowData = createData(1, 'Top');
@@ -151,10 +159,21 @@ export class AppComponent {
     this.components = {
       // customPinnedRowRenderer: CustomPinnedRowRenderer,
     };
-    this.defaultColDef = {
-      resizable: true,
-      width: 170,
-    };
+    // this.defaultColDef = {
+    //   resizable: true,
+    //   width: 170,
+    // };
+  }
+
+  getSelectedRows() {
+    const selectedRow = this.gridApi.getSelectedRows();
+    console.log(selectedRow);
+    //debugger;
+    // console.log(this.agGrid);
+    // const selectedNodes = this.agGrid.api.getSelectedNodes(); debugger;
+    // const selectedData = selectedNodes.map(node => node.data);
+    // const selectedDataStringPresentation = selectedData.map(node => node.make + ' ' + node.model).join(', ');
+    // alert(`Selected nodes: ${selectedDataStringPresentation}`);
   }
 
   onCellClicked(params: any) {
@@ -209,14 +228,11 @@ export class AppComponent {
       api.setDomLayout('print');
       print();
       // setNormal(api);
-      debugger;
     }, 2000);
   }
 }
 
-function setPrinterFriendly(api: any) {
-
-}
+function setPrinterFriendly(api: any) {}
 
 function setNormal(api: any) {
   const eGridDiv: any = document.querySelector('#myGrid');
@@ -227,6 +243,7 @@ function createData(count: any, prefix: any) {
   var result = [];
   for (var i = 0; i < count; i++) {
     result.push({
+      make: 'Toyota', model: 'Celica', price: 35000 ,
       athlete: prefix + ' Athlete ' + i,
       age: prefix + ' Age ' + i,
       country: prefix + ' Country ' + i,
@@ -237,7 +254,6 @@ function createData(count: any, prefix: any) {
   }
   return result;
 }
-
 
 // function onCellClicked(params:any) {
 //   const focusedCell =  params.api.getFocusedCell();
